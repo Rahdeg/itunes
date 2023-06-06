@@ -1,10 +1,12 @@
-var admin = require("firebase-admin");
+const admin = require("firebase-admin");
+const serviceAccount = require("./serviceAccountKey.json");
 
-var serviceAccount = require("./serviceAccountKey.json");
+const appName = 'second';
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+if (!admin.apps.find((app) => app.name === appName)) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  }, appName);
+}
 
-
-module.exports = admin
+module.exports = admin;

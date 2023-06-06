@@ -1,15 +1,17 @@
 import { connect } from '../../../lib/utils/mongo/index';
-import Users from '../../../lib/utils/mongo/song.model'
+import Users from '../../../lib/utils/mongo/user.model'
 import admin from '../../config/firebase'
 import { NextResponse } from "next/server";
 
 
 export async function GET(req){
     if(req.method === 'GET'){
-        if (!req.headers.authorization) {
-            return NextResponse.json({message:"invalid token"});
+        const headers = req.headers;
+        const authorizationHeader = headers.get('authorization');
+        if (!authorizationHeader) {
+            return NextResponse.json({message:"invalid tokenss"});
           }
-          const token= req.headers.authorization.split(" ")[1];
+          const token= authorizationHeader.split(" ")[1];
           await connect();
         try {
             const decodeValue= await admin.auth().verifyIdToken(token)
